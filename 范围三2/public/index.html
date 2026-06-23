@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>范围三碳核算与减排决策平台</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="leaf leaf-main"></span>
+        <span class="leaf leaf-small"></span>
+      </div>
+      <div>
+        <strong>Invisible Carbon</strong>
+        <span>Scope 3 intelligence</span>
+      </div>
+    </div>
+    <nav>
+      <a href="#knowledge" class="active">基础知识库</a>
+      <a href="#analysis">行业分析</a>
+      <a href="#calculator">碳排放计算器</a>
+    </nav>
+    <div class="side-note">范围三核算 · 供应链减碳 · 可持续披露</div>
+  </aside>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="hero-copy">
+        <p class="eyebrow">Make invisible emissions visible.</p>
+        <h1>范围三碳核算与减排决策平台</h1>
+        <p class="subtitle">用行业识别、排放因子和减排路径，把供应链隐含碳转化为可管理的数据资产。</p>
+      </div>
+      <div class="top-actions">
+        <button id="exportBtn" class="ghost">导出报告</button>
+        <button id="clearBtn" class="ghost">清空数据</button>
+      </div>
+    </header>
+
+    <section class="panel knowledge-panel" id="knowledge">
+      <div class="section-title">
+        <span>基础知识库</span>
+        <small>来源：GHG Protocol, Technical Guidance for Calculating Scope 3 Emissions</small>
+      </div>
+      <div class="knowledge-intro">
+        <article class="info-card">
+          <span class="card-label">范围三是什么</span>
+          <div class="scope-grid">
+            <div><b>Scope 1</b><p>企业拥有或控制的排放源产生的直接排放。</p></div>
+            <div><b>Scope 2</b><p>企业购买并使用的电力、蒸汽、供热和制冷对应的间接排放。</p></div>
+            <div><b>Scope 3</b><p>除 Scope 2 之外，发生在企业上下游价值链中的其他间接排放。</p></div>
+          </div>
+          <img class="knowledge-overview-image" src="/assets/scope3-overview-cn.png" alt="范围三排放上下游价值链示意图">
+          <p class="knowledge-copy">Scope 3 分为上游和下游共 15 个类别，用于系统识别、核算和管理价值链排放。企业应优先识别排放量大、减排影响力强、风险高、利益相关方关注或与业务目标密切相关的类别。</p>
+          <p class="knowledge-formula">排放量 = 活动数据 × 排放因子</p>
+          <p class="knowledge-copy">活动数据包括采购金额、采购重量、能源用量、运输距离、废弃物重量、员工人数等。排放因子用于将活动数据转换为 CO₂e。数据优先级通常为企业或供应商特定数据，其次为行业平均数据、数据库数据或支出法数据。重点排放类别宜采用更精确的方法，非重点类别可采用较简化的方法进行筛查。</p>
+        </article>
+      </div>
+      <div id="categoryKnowledge" class="category-knowledge"></div>
+    </section>
+
+    <section class="panel input-panel" id="analysis">
+      <div class="form-grid">
+        <label>上传ESG报告<input id="esgUpload" type="file" accept="application/pdf"></label>
+        <button id="runAnalysis" class="primary">运行分析</button>
+      </div>
+      <div id="esgUploadStatus" class="fx-card">未上传ESG报告。</div>
+    </section>
+
+    <section class="panel" id="analysisPanel">
+      <div class="section-title">
+        <span>行业分析</span>
+        <small id="analysisStatus">请先上传ESG报告</small>
+      </div>
+      <div class="analysis-grid">
+        <article class="info-card industry-card">
+          <span class="card-label">企业信息</span>
+          <div class="industry-pill" id="industryName">待分析</div>
+          <span class="card-label">报告信息</span>
+          <p id="industryTraits">上传ESG报告并运行分析后，将展示SIC代码、SIC行业名称、主营业务、供应链和价值链信息。</p>
+        </article>
+        <article class="info-card chart-card">
+          <span class="card-label">范围三主要排放来源（重要性）</span>
+          <div class="donut-row">
+            <div class="donut-side">
+              <div class="donut" id="analysisDonut"></div>
+              <div class="disclosure-stats" id="disclosureStats"></div>
+            </div>
+            <ul id="importanceList" class="legend-list"></ul>
+          </div>
+        </article>
+      </div>
+      <div class="analysis-secondary-grid">
+        <article class="info-card">
+          <span class="card-label">行业建议关注重点</span>
+          <ul id="focusList" class="focus-list"></ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="calculator">
+      <div class="section-title">
+        <span>碳排放计算器</span>
+        <small id="factorSummary">正在加载排放因子</small>
+      </div>
+      <div id="tabs" class="tabs"></div>
+      <div id="categoryIntro" class="category-intro"></div>
+      <div class="table-actions">
+        <button id="addRow" class="secondary">+ 增加行</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>类别</th>
+              <th>年度支出或活动数据</th>
+              <th>数据单位</th>
+              <th>排放因子</th>
+              <th>因子单位</th>
+              <th>排放量（tCO₂e）</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">当前类别小计</td>
+              <td id="categoryTotal">0.000</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="fx-card" id="fxCard"></div>
+    </section>
+
+    <section class="panel" id="roadmap">
+      <div class="section-title">
+        <span>减排路径图</span>
+        <small>计算完成后自动汇总</small>
+      </div>
+      <div class="summary-grid">
+        <div class="metric-card">
+          <span>范围三总排放量</span>
+          <strong id="grandTotal">0.000</strong>
+          <em>tCO₂e</em>
+        </div>
+        <div class="ranking-card">
+          <span class="card-label">各类别排放排名</span>
+          <ol id="ranking"></ol>
+        </div>
+        <div class="pie-card">
+          <span class="card-label">类别占比</span>
+          <div class="pie" id="categoryPie"></div>
+          <div class="pie-legend" id="categoryPieLegend"></div>
+        </div>
+      </div>
+      <div id="reductionText" class="reduction-text">尚未生成减排建议。</div>
+      <div id="reductionDetail" class="reduction-detail"></div>
+      <div id="fancyPath" class="fancy-path"></div>
+      <div id="timeline" class="timeline"></div>
+      <div id="scenarioAnalysis" class="scenario-analysis"></div>
+    </section>
+  </main>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

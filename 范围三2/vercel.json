@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/*.js": {
+      "includeFiles": "data/emission-factors.json"
+    }
+  },
+  "rewrites": [
+    { "source": "/knowledge", "destination": "/index.html" },
+    { "source": "/analysis", "destination": "/index.html" },
+    { "source": "/calculator", "destination": "/index.html" },
+    { "source": "/roadmap", "destination": "/index.html" }
+  ]
+}
